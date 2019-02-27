@@ -1,0 +1,134 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+#root {
+  font-family: 'Raleway', sans-serif;
+  letter-spacing: 2px;
+  box-sizing: border-box; }
+
+.wait-screen {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .wait-screen p {
+    text-transform: uppercase;
+    font-size: 2em; }
+  .wait-screen p::after {
+    content: "..."; }
+
+.main-screen {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .main-screen h1 {
+    text-transform: uppercase;
+    font-size: 3em; }
+  .main-screen .choose-city {
+    display: flex;
+    flex-direction: column; }
+    .main-screen .choose-city .city-location h2::after {
+      content: ":"; }
+  .main-screen .show-weather {
+    text-transform: uppercase;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    margin: 10px;
+    font-size: 1.5em;
+    border: 1px lightblue solid;
+    border-radius: 3px; }
+  .main-screen .show-weather:hover {
+    background: lightblue;
+    border: 1px blue solid; }
+
+.city-location {
+  padding: 5px; }
+  .city-location h2 {
+    text-transform: capitalize;
+    margin: 20px 0; }
+  .city-location div {
+    display: flex;
+    justify-content: space-between; }
+  .city-location h3 {
+    text-align: end; }
+
+.city-form h2 {
+  text-transform: capitalize; }
+.city-form form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+  .city-form form label {
+    padding: 10px 3px;
+    text-transform: uppercase; }
+  .city-form form label:after {
+    content: ":"; }
+  .city-form form input {
+    border: 1px solid lightblue;
+    padding: 10px 3px; }
+
+.city-flag {
+  width: 100%;
+  display: flex; }
+  .city-flag button {
+    flex-grow: 1;
+    display: block;
+    padding: 10px 0;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    background: none;
+    border: 1px solid lightblue;
+    margin: 20px 10px 10px;
+    letter-spacing: 1px; }
+
+@media screen and (max-width: 420px) and (orientation: portrait) {
+  .main-screen {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    top: 10px;
+    bottom: 10px; }
+    .main-screen h1 {
+      display: block;
+      width: 100%;
+      font-size: 2em;
+      line-height: 1.3em;
+      align-self: flex-start;
+      margin: 30px 0 20px 0;
+      padding-bottom: 30px;
+      border-bottom: 1px solid lightblue; }
+    .main-screen .choose-city {
+      padding: 0;
+      margin: 0;
+      width: 100%; }
+
+  .city-location {
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightblue; }
+    .city-location h2 {
+      margin: 10px 0; }
+    .city-location .lat-lon {
+      margin: 5px 0; }
+
+  .city-form {
+    border-bottom: 1px solid lightblue;
+    padding: 5px;
+    padding-bottom: 20px; }
+    .city-form h2 {
+      margin: 20px 0; }
+    .city-form form {
+      margin: 10px 0; }
+
+  .city-flag {
+    width: 100%; } }
+
+/*# sourceMappingURL=stylesheet.css.map */

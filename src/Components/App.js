@@ -2,6 +2,8 @@ import React, {Component} from "react"
 import {Route, Link} from "react-router-dom"
 import CityForm from "./CityForm"
 import Weather from "./Weather"
+import Coords from "./Coords"
+import CityFlagButton from "./CityFlagButton"
 
 class App extends Component{
     constructor(){
@@ -13,29 +15,30 @@ class App extends Component{
             this.state = parsedJson;
         } else {
             this.state = {
-                api: {
-                    adress: "https://api.openweathermap.org/data/2.5/weather",
-                    key: "2619c60137cdebc87f7ddd45afbf7101",
-                    units: "metric",
-                    call: "",
-                    callFlag: false
-                },
+                address: "https://api.openweathermap.org/data/2.5/weather",
+                apikey: "2619c60137cdebc87f7ddd45afbf7101",
+                units: "metric",
+                call: "",
+                callFlag: false,
                 positionFlag: false,
+                cityFlag: false,
                 latitude: '',
                 longitude: '',
                 city: '',
             }
         }
-        
-        if(this.state.positionFlag === false){
-            this.onGetCurrentPosition();
-        }
-        this.setToLocalStorage();
-
+    
         this.onGetCurrentPosition = this.onGetCurrentPosition.bind(this);
         this.onShowWeather = this.onShowWeather.bind(this);
         this.setToLocalStorage = this.setToLocalStorage.bind(this);
         
+    }
+
+    componentDidMount(){
+        if(!this.state.positionFlag){
+            this.onGetCurrentPosition();
+        }
+        this.setToLocalStorage();
     }
 
     setToLocalStorage(){
@@ -49,12 +52,16 @@ class App extends Component{
         var geo = navigator.geolocation;
         geo.getCurrentPosition((position) => {
             this.setState({
+                cityFlag: false,
                 positionFlag: true,
                 latitude: position.coords.latitude,
                 longitude: position.coords.longitude
             })
             console.log(this.state)
         },() => {
+            this.setState({
+                positionFlag: true
+            })
             console.error("Localization through Geolocation API failed");
         });
     }
@@ -69,46 +76,63 @@ class App extends Component{
 
     //show weather - gets args from state and add them to apiCall
     onShowWeather(){
-        var apiCall = "";
-        apiCall += this.state.api.adress;
-        if(this.state.latitude && this.state.longitude){
-            apiCall += "?lat=";
-            apiCall += this.state.latitude;
-            apiCall += "&lon=";
-            apiCall += this.state.longitude;
+        var apiCall = `${this.state.address}`;
+        if(!this.state.cityFlag){
+            apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}`;
         } else {
-            apiCall += "?q=";
-            apiCall += this.state.city;
+            apiCall += `?q=${this.state.city}`;
         }
-        apiCall += "&units=";
-        apiCall += this.state.api.units;
-        apiCall += "&APPID=";
-        apiCall += this.state.api.key;
+        apiCall += `&units=${this.state.units}&APPID=${this.state.apikey}`;
         console.log(apiCall);
         this.setState({
-            api: {
-                call: apiCall,
-                callFlag: true
-            }
+            call: apiCall,
+            callFlag: true
         })
+    }
+
+    onChangePosFlag = (e) => {
+        e.preventDefault();
+        if(this.state.positionFlag){
+            this.setState({
+                cityFlag: true
+            })
+        } else {
+            this.setState({
+                cityFlag: true
+            })
+        }
+        console.log(this.state.positionFlag)
     }
 
 
     render(){
-        return(
-            <div>
-                <h1>simple weather app</h1>
-                <Route exact path="/" render={() => (
-                    <div>
-                        <CityForm onChangeCityForm={this.onChangeCityForm}/>
-                        <Link to="ShowWeather" onClick={this.onShowWeather}>show weather</Link>
-                    </div>
-                )}/>
-                <Route path="/ShowWeather" render={() => (    
-                    <Weather call={this.state.api.call} callFlag={this.state.api.callFlag}/>
-                )}/>
-            </div>
-        )
+        if(!this.state.positionFlag){
+            return(
+                <div className="wait-screen">
+                    <p>czekaj</p>
+                </div>
+            )
+        } else {
+            return(
+                <div className="main-screen">
+                    <h1>simple<br/>weather<br/>app</h1>
+                    <Route exact path="/" render={() => (
+                        <div className="choose-city">
+                            <Coords text="lokalizacja" lat={this.state.latitude} lon={this.state.longitude}/>
+                            <CityForm onChangeCityForm={this.onChangeCityForm}/>
+                            <CityFlagButton onClick={this.onChangePosFlag}/>
+                            <Link className="show-weather" to="ShowWeather" onClick={this.onShowWeather}>pokaż</Link>
+                        </div>
+                    )}/>
+                    <Route path="/ShowWeather" render={() => (    
+                        <Weather    call={this.state.call} 
+                                    callFlag={this.state.callFlag}
+                                    />
+                    )}/>
+                </div>
+            )
+        }
+                
     }
 }
 

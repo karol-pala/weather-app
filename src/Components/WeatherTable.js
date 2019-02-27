@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types"
 
 function WeatherTable(props){
     return(
@@ -6,7 +7,7 @@ function WeatherTable(props){
             <table>
                 <thead>
                     <tr>
-                        <th colSpan="2">weather</th>
+                        <th colSpan="2">pogoda</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,13 @@ function WeatherTable(props){
             </table>
         </div>
     )
+}
+
+WeatherTable.propTypes = {
+    temp: PropTypes.number.isRequired,
+    humidity: PropTypes.number.isRequired,
+    pressure: PropTypes.number.isRequired,
+    visibility: PropTypes.number.isRequired
 }
 
 export default WeatherTable
