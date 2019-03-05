@@ -10,41 +10,27 @@ class App extends Component{
         super();
         console.log("constructor")
         var json = localStorage.getItem("app-state");
-        if(json){
-            let parsedJson = JSON.parse(json);
-            this.state = parsedJson;
-        } else {
-            this.state = {
-                address: "https://api.openweathermap.org/data/2.5/weather",
-                apikey: "2619c60137cdebc87f7ddd45afbf7101",
-                units: "metric",
-                call: "",
-                callFlag: false,
-                positionFlag: false,
-                cityFlag: false,
-                latitude: '',
-                longitude: '',
-                city: '',
-            }
+        this.state = {
+            address: "https://api.openweathermap.org/data/2.5/weather",
+            apikey: "2619c60137cdebc87f7ddd45afbf7101",
+            units: "metric",
+            call: "",
+            callFlag: false,
+            positionFlag: false,
+            cityFlag: false,
+            latitude: '',
+            longitude: '',
+            city: '',
         }
     
         this.onGetCurrentPosition = this.onGetCurrentPosition.bind(this);
         this.onShowWeather = this.onShowWeather.bind(this);
-        this.setToLocalStorage = this.setToLocalStorage.bind(this);
-        
     }
 
     componentDidMount(){
         if(!this.state.positionFlag){
             this.onGetCurrentPosition();
         }
-        this.setToLocalStorage();
-    }
-
-    setToLocalStorage(){
-        var data = this.state;
-        data = JSON.stringify(data);
-        localStorage.setItem("app-state", data);
     }
 
     //getting position from Geolocation API
@@ -92,16 +78,16 @@ class App extends Component{
 
     onChangePosFlag = (e) => {
         e.preventDefault();
-        if(this.state.positionFlag){
+        if(this.state.cityFlag){
             this.setState({
-                cityFlag: true
+                cityFlag: false
             })
         } else {
             this.setState({
                 cityFlag: true
             })
         }
-        console.log(this.state.positionFlag)
+        console.log(this.state.cityFlag)
     }
 
 
