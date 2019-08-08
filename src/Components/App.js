@@ -63,11 +63,12 @@ class App extends Component{
     //show weather - gets args from state and add them to apiCall
     onShowWeather(){
         var apiCall = `${this.state.address}`;
-        if(!this.state.cityFlag){
-            apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}`;
-        } else {
-            apiCall += `?q=${this.state.city}`;
-        }
+        (!this.state.cityFlag) ? apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}` : apiCall += `?q=${this.state.city}`;
+//         if(!this.state.cityFlag){
+//             apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}`;
+//         } else {
+//             apiCall += `?q=${this.state.city}`;
+//         }
         apiCall += `&units=${this.state.units}&APPID=${this.state.apikey}`;
         console.log(apiCall);
         this.setState({
@@ -78,15 +79,16 @@ class App extends Component{
 
     onChangePosFlag = (e) => {
         e.preventDefault();
-        if(this.state.cityFlag){
-            this.setState({
-                cityFlag: false
-            })
-        } else {
-            this.setState({
-                cityFlag: true
-            })
-        }
+        (this.state.cityFlag) ? this.setState({cityFlag: false}) : this.setState({cityFlag: true});
+//         if(this.state.cityFlag){
+//             this.setState({
+//                 cityFlag: false
+//             })
+//         } else {
+//             this.setState({
+//                 cityFlag: true
+//             })
+//         }
         console.log(this.state.cityFlag)
     }
 
