@@ -5,14 +5,15 @@ import Weather from "./Weather"
 import Coords from "./Coords"
 import CityFlagButton from "./CityFlagButton"
 
+const API_KEY = process.env.REACT_APP_WEATHER_API_KEY;
+
 class App extends Component{
     constructor(){
         super();
-        console.log("constructor")
-        var json = localStorage.getItem("app-state");
+        console.log("constructor");
         this.state = {
             address: "https://api.openweathermap.org/data/2.5/weather",
-            apikey: "2619c60137cdebc87f7ddd45afbf7101",
+            apikey: API_KEY,
             units: "metric",
             call: "",
             callFlag: false,
@@ -35,7 +36,7 @@ class App extends Component{
 
     //getting position from Geolocation API
     onGetCurrentPosition(){
-        var geo = navigator.geolocation;
+        const geo = navigator.geolocation;
         geo.getCurrentPosition((position) => {
             this.setState({
                 cityFlag: false,
@@ -62,15 +63,12 @@ class App extends Component{
 
     //show weather - gets args from state and add them to apiCall
     onShowWeather(){
-        var apiCall = `${this.state.address}`;
+        let apiCall = `${this.state.address}`;
+        
         (!this.state.cityFlag) ? apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}` : apiCall += `?q=${this.state.city}`;
-//         if(!this.state.cityFlag){
-//             apiCall += `?lat=${this.state.latitude}&lon=${this.state.longitude}`;
-//         } else {
-//             apiCall += `?q=${this.state.city}`;
-//         }
+
         apiCall += `&units=${this.state.units}&APPID=${this.state.apikey}`;
-        console.log(apiCall);
+
         this.setState({
             call: apiCall,
             callFlag: true
@@ -80,44 +78,34 @@ class App extends Component{
     onChangePosFlag = (e) => {
         e.preventDefault();
         (this.state.cityFlag) ? this.setState({cityFlag: false}) : this.setState({cityFlag: true});
-//         if(this.state.cityFlag){
-//             this.setState({
-//                 cityFlag: false
-//             })
-//         } else {
-//             this.setState({
-//                 cityFlag: true
-//             })
-//         }
-        console.log(this.state.cityFlag)
     }
 
 
     render(){
         if(!this.state.positionFlag){
             return(
-                <div className="wait-screen">
+                <section className="wait-screen">
                     <p>czekaj</p>
-                </div>
+                </section>
             )
         } else {
             return(
-                <div className="main-screen">
+                <section className="main-screen">
                     <h1>simple<br/>weather<br/>app</h1>
                     <Route exact path="/" render={() => (
-                        <div className="choose-city">
+                        <section className="choose-city">
                             <Coords text="lokalizacja" lat={this.state.latitude} lon={this.state.longitude}/>
                             <CityForm onChangeCityForm={this.onChangeCityForm}/>
                             <CityFlagButton onClick={this.onChangePosFlag}/>
                             <Link className="show-weather" to="ShowWeather" onClick={this.onShowWeather}>pokaż</Link>
-                        </div>
+                        </section>
                     )}/>
                     <Route path="/ShowWeather" render={() => (    
                         <Weather    call={this.state.call} 
                                     callFlag={this.state.callFlag}
                                     />
                     )}/>
-                </div>
+                </section>
             )
         }
                 

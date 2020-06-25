@@ -59,7 +59,7 @@ class Weather extends Component{
         console.log(this.state.flag)
         if(this.state.flag === true){
             return(
-                <div>
+                <section>
                     <Coords   text={this.state.items.data.name} 
                             lat={this.state.items.data.coord.lat}
                             lon={this.state.items.data.coord.lon}/>
@@ -70,7 +70,7 @@ class Weather extends Component{
                     <TimeTable  sunrise={this.state.items.data.sys.sunrise}
                                 sunset={this.state.items.data.sys.sunset}/>
                     
-                </div>
+                </section>
             )
         } else {
             return(

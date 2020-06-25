@@ -2,15 +2,15 @@ import React from "react"
 import PropTypes from "prop-types"
 
 function TimeTable(props){
-    var sunrise = props.sunrise * 1000;
-    var sunset = props.sunset * 1000;
+    let sunrise = props.sunrise * 1000;
+    let sunset = props.sunset * 1000;
     sunset = new Date(sunset);
     sunrise = new Date(sunrise);
     sunset = sunset.toLocaleTimeString();
     sunrise = sunrise.toLocaleTimeString();
     console.log(sunset.toString());
     return(
-        <div>
+        <article>
             <table>
                 <thead>
                     <tr>
@@ -28,7 +28,7 @@ function TimeTable(props){
                     </tr>
                 </tbody>
             </table> 
-        </div>
+        </article>
     )
 }
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 function WeatherTable(props){
     return(
-        <div>
+        <article>
             <table>
                 <thead>
                     <tr>
@@ -29,7 +29,7 @@ function WeatherTable(props){
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </article>
     )
 }
 
